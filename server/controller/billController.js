@@ -1,0 +1,79 @@
+import BillModel from "../models/billModel.js";
+import userModel from "../models/userModel.js";
+
+const createBill = async (req, res) => {
+  const { locations, car, grandtotal, token, datetime } = req.body;
+
+  console.log({ locations, car, grandtotal, token, datetime });
+  try {
+    // if(datetime.time!=="undefined:undefined")
+    const bills = await BillModel.find({ email: token.email });
+
+    const user = await userModel.find({ email: car.name });
+
+    if (bills.length <= 0) {
+      let newBill = new BillModel();
+      newBill.locations = locations;
+      newBill.car = car;
+      newBill.grandtotal = grandtotal;
+      newBill.email = token.email;
+      newBill.datetime = datetime;
+      await newBill.save();
+
+      await userModel.findOneAndUpdate(
+        { email: car.name },
+        {
+          $push: {
+            msg: {
+              message: "You have a booking",
+              sender_email: token.email,
+              locations: locations,
+              car: car,
+              grandtotal: grandtotal,
+              datetime: datetime,
+            },
+          },
+        }
+      );
+      res
+        .status(200)
+        .json({ msg: "Cab booking successfull, have a happy ride" });
+    } else {
+      res.status(400).json({ msg: "You have already booked a cab" });
+    }
+  } catch (error) {
+    res.status(400).json({ msg: "create bill error" });
+  }
+};
+
+const getBill = (req, res) => {
+  const { token } = req.body;
+  try {
+    BillModel.find({ email: token.email }).then((bill) => {
+      if (bill.length <= 0) {
+        res.status(404).json({ msg: "You haven't booked a cab" });
+      } else {
+        res.status(200).json(bill);
+      }
+    });
+  } catch (error) {
+    res.status(400).json({ msg: error });
+  }
+};
+
+const cancelBill = async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    console.log(req.body.token.email);
+
+    const response = await BillModel.deleteMany({
+      email: req.body.token.email,
+    });
+    res.status(201).json({ msg: "Your booking has been canceled" });
+  } catch (error) {
+    res.status(400).json({ msg: "error" });
+  }
+};
+
+export { createBill, getBill, cancelBill };
