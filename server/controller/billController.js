@@ -1,4 +1,5 @@
 import BillModel from "../models/billModel.js";
+import FeedModel from "../models/feedBackModel.js";
 import userModel from "../models/userModel.js";
 
 const createBill = async (req, res) => {
@@ -91,4 +92,32 @@ const cancelBill = async (req, res) => {
   }
 };
 
-export { createBill, getBill, cancelBill };
+const feedBack = async (req, res) => {
+  const { autoid, feedback, token } = req.body;
+
+  console.log({ autoid, feedback });
+  try {
+    let newFeedBack = new FeedModel();
+    newFeedBack.user = token.email;
+    newFeedBack.auto_id = autoid;
+    newFeedBack.feedback = feedback;
+
+    await newFeedBack.save();
+
+    res.status(400).json({ msg: "Your Feedback Added" });
+  } catch (error) {
+    res.status(400).json({ msg: "something went wrong" });
+  }
+};
+
+const getFeedback = async (req, res) => {
+  const auto_id = req.params.auto_id;
+  try {
+    const feedBack = await FeedModel.find({ auto_id: auto_id });
+    res.status(200).send(feedBack);
+  } catch (error) {
+    res.status(400).json({ msg: error });
+  }
+};
+
+export { createBill, getBill, cancelBill, feedBack, getFeedback };

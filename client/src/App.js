@@ -19,6 +19,7 @@ import Cartype1 from "./screens/cartype1";
 import Messages from "./screens/messages";
 import Admin from "./screens/admin";
 import Home from "./screens/Home";
+import FeedBack from "./screens/feedback";
 
 function App() {
   let token = window.localStorage.getItem("token");
@@ -45,7 +46,7 @@ function App() {
 
   return (
     <Router>
-      <Navbar type={user?.type} />
+      <Navbar type={user?.type} id={user?._id} />
       <StackContainer user={user} notToken={notToken} token={token} />
     </Router>
   );
@@ -108,6 +109,12 @@ const StackContainer = ({ user, notToken, token }) => {
           ) : (
             <Messages messages={user?.msg} type={user?.type} token={token} />
           )
+        }
+      />
+      <Route
+        path="/feedbacks"
+        element={
+          notToken ? <Navigate to="/register" /> : <FeedBack token={token} />
         }
       />
       <Route

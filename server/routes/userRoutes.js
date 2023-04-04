@@ -2,7 +2,9 @@ import express from "express";
 import {
   cancelBill,
   createBill,
+  feedBack,
   getBill,
+  getFeedback,
 } from "../controller/billController.js";
 import {
   availableAuto,
@@ -31,6 +33,10 @@ userRoutes.post("/login", loginUser);
 
 userRoutes.post("/createbill", AuthMiddleWare, createBill);
 userRoutes.get("/getbill", AuthMiddleWare, getBill);
+
+userRoutes.post("/feedback", AuthMiddleWare, feedBack);
+userRoutes.get("/getfeedbacks/:auto_id", AuthMiddleWare, getFeedback);
+
 userRoutes.get("/getuser", AuthMiddleWare, getUser);
 userRoutes.get("/getmsgs", AuthMiddleWare, getMsg);
 userRoutes.post("/notify_customer", AuthMiddleWare, notifyCustomer);

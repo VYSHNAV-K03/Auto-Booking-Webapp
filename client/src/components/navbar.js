@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import "../App.css";
 import "../bill.css";
 
-export default function Navbar({ type }) {
+export default function Navbar({ type, id }) {
   const [clicked, setClicked] = useState(false);
   const [popup, setPopup] = useState(false);
 
@@ -28,11 +28,9 @@ export default function Navbar({ type }) {
             <div className="navIcon">
               <ion-icon name="map-outline"></ion-icon>
             </div>
-            {type == 1 ? "Home" : "Show Map"}
+            {type == 0 ? "Show Map" : "Home"}
           </Link>
-          {type == 1 ? (
-            <></>
-          ) : (
+          {type == 0 ? (
             <Link
               to="/booking"
               className="nav"
@@ -43,6 +41,23 @@ export default function Navbar({ type }) {
               </div>
               My Bookings
             </Link>
+          ) : (
+            <></>
+          )}
+          {type == 1 ? (
+            <Link
+              to="/feedbacks"
+              className="nav"
+              onClick={() => setClicked(!clicked)}
+              state={{ id: id }}
+            >
+              <div className="navIcon">
+                <ion-icon name="ticket-outline"></ion-icon>
+              </div>
+              FeedBacks
+            </Link>
+          ) : (
+            <></>
           )}
           <Link
             to="/messages"
