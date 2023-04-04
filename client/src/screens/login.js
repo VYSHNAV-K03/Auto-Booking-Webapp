@@ -32,7 +32,7 @@ export default function Login() {
     if (msg != undefined) {
       setDetails(msg);
       setTimeout(() => {
-        window.location.href = "/";
+        window.location.href = "/map";
       }, [2000]);
     } else {
       setDetails(err);

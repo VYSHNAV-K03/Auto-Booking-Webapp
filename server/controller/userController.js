@@ -1,9 +1,11 @@
 import userModel from "../models/userModel.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-
+import download from "download";
 import dotenv from "dotenv";
 import BillModel from "../models/billModel.js";
+import fs from "fs";
+import { request } from "express";
 dotenv.config();
 
 let WT_SECRET = process.env.WT_SECRET;
@@ -31,10 +33,9 @@ export const signUpUser = (req, res) => {
 };
 
 export const signUpAuto = (req, res) => {
+  console.log(req.file);
   const { autonumber, password, phone, place } = req.body;
-
   console.log({ autonumber, password, phone, place });
-
   userModel.findOne({ email: autonumber }).then(async (user) => {
     if (user == null) {
       let hash = await bcrypt.hash(password, 10);
@@ -44,6 +45,7 @@ export const signUpAuto = (req, res) => {
         phone: phone,
         place: place,
         password: hash,
+        document_path: req.file && req.file.path,
       });
       newUser.save();
       let signed = jwt.sign({ email: autonumber }, WT_SECRET);
@@ -55,6 +57,18 @@ export const signUpAuto = (req, res) => {
       res.status(400).json({ err: "A user with this email already exists" });
     }
   });
+};
+
+export const downloadDocument = async (req, res) => {
+  try {
+    const { autonumber } = req.body;
+
+    const user = await userModel.findOne({ email: autonumber });
+
+    res.status(200).download(user.document_path);
+  } catch (error) {
+    res.status(400).json({ err: "cannot find the user" });
+  }
 };
 
 export const loginUser = (req, res) => {

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { serverUri } from "../redux/actions";
 import axios from "axios";
 import styled from "styled-components";
+import FileDownload from "js-file-download";
 
 import delete_img from "../assets/delete_icon.png";
 
@@ -25,10 +26,24 @@ const Container = styled.div`
     width: 100%;
     height: 100%;
   }
+  .doc_download {
+    outline: none;
+    border: none;
+    border-radius: 10px;
+    background: blueviolet;
+    color: white;
+    padding: 4px 8px;
+    font-size: 0.7rem;
+    margin-left: 5px;
+    cursor: pointer;
+    font-weight: 600;
+  }
 `;
 
 const Admin = ({ token, details }) => {
   const [autos, setautos] = useState();
+
+  const [document, setdocument] = useState();
 
   const getAutoAdmin = async () => {
     try {
@@ -42,6 +57,31 @@ const Admin = ({ token, details }) => {
       setautos(data?.data);
     } catch (error) {
       console.log("get auto admin error", error);
+    }
+  };
+
+  const downloadDoc = async (email) => {
+    try {
+      const file = await axios.post(
+        serverUri + `/download`,
+        {
+          autonumber: email,
+        },
+        {
+          responseType: "arraybuffer",
+          headers: {
+            token: token,
+          },
+        }
+      );
+
+      setdocument(file.data);
+
+      FileDownload(file.data, "targe.png");
+
+      // console.log(blfile);
+    } catch (error) {
+      console.log("download document admin error", error);
     }
   };
 
@@ -108,10 +148,22 @@ const Admin = ({ token, details }) => {
             <div className="details">
               <div>
                 <p className="name">3 Seater</p>
-                <p className="brand">Auto Number:{details.email}</p>
+                <p className="brand">Auto Number: {details.email}</p>
+                <p className="brand">Place: {details.place}</p>
                 <p className="brand">
                   Cab Charges:{" "}
                   <span style={{ fontWeight: 600, fontSize: 15 }}>15</span> /-
+                </p>
+                <p className="brand">
+                  Document:{" "}
+                  <button
+                    className="doc_download"
+                    onClick={() => {
+                      downloadDoc(details.email);
+                    }}
+                  >
+                    download
+                  </button>{" "}
                 </p>
               </div>
               {/* <div className="tag">

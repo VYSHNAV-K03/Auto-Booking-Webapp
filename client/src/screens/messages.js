@@ -101,7 +101,7 @@ const Messages = ({ messages, type, token }) => {
                 <div className="date">{msg?.datetime?.date}</div>
                 <div className="msg_title">{msg?.message}</div>
                 <div className="sender">From : {msg?.sender_email}</div>
-                {type == 1 && (
+                {type == 1 && msg?.locations && (
                   <div className="locations">
                     <div className="start">{msg?.locations?.start}</div>
                     <div className="to">To</div>

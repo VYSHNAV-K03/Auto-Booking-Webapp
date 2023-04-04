@@ -62,7 +62,9 @@ const getBill = (req, res) => {
 };
 
 const cancelBill = async (req, res) => {
-  const id = req.params.id;
+  const autoid = req.params.id;
+
+  console.log(autoid);
 
   try {
     console.log(req.body.token.email);
@@ -70,6 +72,19 @@ const cancelBill = async (req, res) => {
     const response = await BillModel.deleteMany({
       email: req.body.token.email,
     });
+
+    await userModel.findOneAndUpdate(
+      { _id: autoid },
+      {
+        $push: {
+          msg: {
+            message: "Booking cancelled",
+            sender_email: req.body.token.email,
+          },
+        },
+      }
+    );
+
     res.status(201).json({ msg: "Your booking has been canceled" });
   } catch (error) {
     res.status(400).json({ msg: "error" });

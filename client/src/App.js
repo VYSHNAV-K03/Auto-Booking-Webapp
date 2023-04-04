@@ -18,6 +18,7 @@ import { serverUri } from "./redux/actions";
 import Cartype1 from "./screens/cartype1";
 import Messages from "./screens/messages";
 import Admin from "./screens/admin";
+import Home from "./screens/Home";
 
 function App() {
   let token = window.localStorage.getItem("token");
@@ -53,9 +54,10 @@ function App() {
 const StackContainer = ({ user, notToken, token }) => {
   return (
     <Routes>
+      <Route exact path="/" element={<Home />} />
       <Route
         exact
-        path="/"
+        path="/map"
         element={
           notToken ? (
             <Navigate to="/register" />

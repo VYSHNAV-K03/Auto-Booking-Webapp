@@ -29,7 +29,7 @@ export default function Bills() {
 
   useEffect(() => {
     dispatch(getBill());
-    console.log(bill);
+    // console.log(bill);
   }, []);
 
   return (
@@ -113,7 +113,7 @@ export default function Bills() {
                   </button>
                   <button
                     onClick={() => {
-                      dispatch(cancelBooking(bill._id));
+                      dispatch(cancelBooking(bill.car.brand));
                       setPopup(!popup);
                       // setTimeout(() => {
                       //   window.location.href = "/";
@@ -131,7 +131,7 @@ export default function Bills() {
       ) : (
         <div className="noneContainer">
           <p className="none">You have'nt booked a cab yet..</p>
-          <Link to="/" className="btn">
+          <Link to="/map" className="btn">
             Book now
           </Link>
         </div>

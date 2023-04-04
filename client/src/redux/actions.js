@@ -26,7 +26,7 @@ export const getAllMarkers = (marker, result, type) => async (dispatch) => {
     markerDetails = [...markerDetails, { result: result, type: type }];
   }
 
-  console.log(markers);
+  // console.log(markers);
   dispatch({
     type: "getMarkers",
     markers: markers,
@@ -84,19 +84,22 @@ export const signupUser =
   };
 
 export const signupAuto =
-  ({ email, password, phone, place }) =>
+  ({ email, password, phone, place, file }) =>
   async (dispatch) => {
+    const formData = new FormData();
+    formData.append("autonumber", email);
+    formData.append("phone", phone);
+    formData.append("place", place);
+    formData.append("password", password);
+    formData.append("autodoc", file);
+
     try {
       dispatch({ type: "signupRequest" });
-      let msg = await axios.post(
-        serverUri + "/signup_auto",
-        { autonumber: email, password: password, phone: phone, place: place },
-        {
-          headers: {
-            "Content-type": "application/json",
-          },
-        }
-      );
+      let msg = await axios.post(serverUri + "/signup_auto", formData, {
+        headers: {
+          "Content-type": "application/json",
+        },
+      });
 
       if (msg.data.token != undefined) {
         window.localStorage.setItem("token", msg.data.token);

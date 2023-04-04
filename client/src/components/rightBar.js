@@ -26,7 +26,7 @@ export default function RightBar({
   const [errdate, seterrDate] = useState("");
   const [errtime, seterrTime] = useState("");
 
-  const nightCharges = period === "PM" && hrs > 6 ? details[0].charges + 2 : 0;
+  const nightCharges = period === "PM" && hrs > 6 ? 15 + 2 + 2 : 0;
   let grandTotal = parseFloat(estimatedPrice) + 15 + nightCharges;
 
   const InputRef = useRef();

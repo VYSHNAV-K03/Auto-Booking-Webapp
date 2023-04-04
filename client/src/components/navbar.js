@@ -1,11 +1,13 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../App.css";
 import "../bill.css";
 
 export default function Navbar({ type }) {
   const [clicked, setClicked] = useState(false);
   const [popup, setPopup] = useState(false);
+
+  const navigate = useNavigate();
 
   const token = window.localStorage.getItem("token");
   return (
@@ -18,9 +20,11 @@ export default function Navbar({ type }) {
         <ion-icon name="grid-outline" color="white" className="ico"></ion-icon>
       </div>
       <div className="navbar">
-        <p className="title">AyeAuto</p>
+        <p className="title" onClick={() => navigate("/")}>
+          AyeAuto
+        </p>
         <div className="other">
-          <Link to="/" className="nav" onClick={() => setClicked(!clicked)}>
+          <Link to="/map" className="nav" onClick={() => setClicked(!clicked)}>
             <div className="navIcon">
               <ion-icon name="map-outline"></ion-icon>
             </div>

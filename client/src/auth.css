@@ -39,7 +39,7 @@
 .registerContainer .sec .innersection .head {
     font-family: 'Montserrat';
     font-weight: 600;
-    font-size: 35px;
+    font-size: 30px;
     margin-bottom: 10px;
 }
 
@@ -54,14 +54,14 @@
 
 .registerContainer .sec .innersection .inputContainer {
     width: 70%;
-    margin-top: 25px;
+    margin-top: 10px;
     height: max-content;
 }
 
 .registerContainer .sec .innersection .btn {
     width: 70%;
     border-radius: 10px;
-    margin-top: 45px;
+    margin-top: 30px;
     height: 50px;
 }
 
@@ -97,6 +97,18 @@
     font-size: 14px;
     padding: 0 20px;
     margin-top: 10px;
+}
+
+.registerContainer .sec .innersection .inputContainer .inpfile{
+
+    border: 2px solid rgb(221, 221, 221);
+    width: 100%;
+    padding: 7px;
+    cursor: pointer;
+    font-family: 'Montserrat';
+    font-size: 14px;
+    margin-top: 10px;
+
 }
 
 .registerContainer .sec .innersection .inputContainer .inputBox .icon {

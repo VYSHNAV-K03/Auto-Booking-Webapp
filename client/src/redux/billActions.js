@@ -70,9 +70,10 @@ export const getBill = () => async (dispatch) => {
   }
 };
 
-export const cancelBooking = (id) => async (dispatch) => {
+export const cancelBooking = (autoid) => async (dispatch) => {
+  console.log("cancel bill", { autoid });
   try {
-    let msg = await axios.delete(serverUri + `/cancelbill/${id}`, {
+    let msg = await axios.delete(serverUri + `/cancelbill/${autoid}`, {
       headers: {
         token: token,
         "Content-type": "application/json",
@@ -82,7 +83,7 @@ export const cancelBooking = (id) => async (dispatch) => {
       type: "cancelBillSuccess",
       msg: msg.data.msg,
     });
-    // dispatch(getBill());
+
     window.location.reload();
   } catch (error) {
     dispatch({

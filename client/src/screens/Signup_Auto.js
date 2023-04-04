@@ -12,6 +12,7 @@ export default function Signup_Auto() {
   const [errmsg, setErr] = useState("");
   const [showPass, setShowPass] = useState(true);
   const [details, setDetails] = useState("");
+  const [file, setfile] = useState();
   let enable = false;
 
   const dispatch = useDispatch();
@@ -24,7 +25,7 @@ export default function Signup_Auto() {
     if (email != "" && password != "" && phone != "" && place != "") {
       if (password.length > 5) {
         setErr("");
-        dispatch(signupAuto({ email, password, phone, place }));
+        dispatch(signupAuto({ email, password, phone, place, file }));
       } else {
         setErr("password must be 8 characters long");
       }
@@ -39,7 +40,7 @@ export default function Signup_Auto() {
     if (msg != undefined) {
       setDetails(msg);
       setTimeout(() => {
-        window.location.href = "/";
+        window.location.href = "/map";
       }, [2000]);
     } else {
       setDetails(err);
@@ -82,6 +83,17 @@ export default function Signup_Auto() {
               className="inp"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+          <div className="inputContainer">
+            <label className="label">Registration Certificate</label>
+            <input
+              className="inpfile"
+              type="file"
+              accept="image/*"
+              onChange={(e) => {
+                setfile(e.target.files[0]);
+              }}
             />
           </div>
           <div className="inputContainer">

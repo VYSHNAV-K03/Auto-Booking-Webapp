@@ -326,7 +326,9 @@ body{
 .navbar .title{
   font-family: 'Montserrat';
   font-size: 25px;
-  font-weight: 700
+  font-weight: 700;
+  cursor: pointer;
+
 }
 
 .navbar .other{
